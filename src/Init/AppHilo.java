@@ -1,5 +1,8 @@
 
-package ejercicio1;
+package Init;
+
+import Objetos.Dato;
+import Hilos.HiloRunnable;
 
 /**
  *

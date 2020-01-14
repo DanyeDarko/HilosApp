@@ -1,5 +1,7 @@
 
-package ejercicio1;
+package Hilos;
+
+import Objetos.Dato;
 
 /**
  *
