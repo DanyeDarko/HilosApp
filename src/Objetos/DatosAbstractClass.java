@@ -1,8 +1,13 @@
 package Objetos;
 public abstract class DatosAbstractClass {
-public int arreglo[];
-int numeroAleatorio;
+ //<editor-fold defaultstate="collapsed" desc="VARIABLES GLOBALES">
 
+ public int arreglo[]; // ARREGLO DE 100 POCICIONES EN EL QUE SE EFECTUARAN LAS OPERACIONES DE LOS HILOS
+ int numeroAleatorio;
+ //</editor-fold>
+
+
+ //<editor-fold defaultstate="collapsed" desc="METODOS DE ENCAPSULAMIENTO">
     /**
      * @return the arreglo
      */
@@ -30,4 +35,5 @@ int numeroAleatorio;
     public void setNumeroAleatorio(int numeroAleatorio) {
         this.numeroAleatorio = numeroAleatorio;
     }
+ //</editor-fold>    
 }
