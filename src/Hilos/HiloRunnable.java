@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class HiloRunnable implements Runnable{
 
-    //<editor-fold defaultstate="collapsed" desc="METODOS DE ENCAPSULAMIENTO">
+    //<editor-fold defaultstate="collapsed" desc="VARIABLES GLOBALES">
     private Dato d;  //ESTANCIA DE CLASE DATO 
     private int num; // VARIABLE QUE GUARDA EL NUMERO DE HILO 
     int i; //VARIABLE PARA GUARDAR EL INICIO DEL ESPACIO EN EL ARREGLO 
@@ -19,7 +19,7 @@ public class HiloRunnable implements Runnable{
     this.f=fin; // DEFINIMOS 'f' COMO EL FINAL DEL RANGO 'FIN'
     }
     
-    // CONSTRUCTOR OPCIONAL A FALTA DE PARAMETROS DE RANGO 
+    // ***** CONSTRUCTOR OPCIONAL A FALTA DE PARAMETROS DE RANGO 
     public HiloRunnable(Dato d, int num) {  // (CLASE MONITORA , NUMERO DE HILO) 
     this.d=d;
     this.num=num;
@@ -29,8 +29,8 @@ public class HiloRunnable implements Runnable{
     //</editor-fold>
     
     public void run() {        
-     d.incremento(i,f);
-     System.out.println("Hilo: "+num+" Utilisando posiciones desde :" +i+",Hasta "+f+"");
+     d.decidirOperacion(num, i, f);  // EVALUA EL NUMERO DE HILO PARA PODER REALISAR LA OPERACION CORRESPONDIENTE 
+                                     // VER CLASE DATO PARA DETALLES DEL METODO DE DECICION DE OPERACION 
     }
     
 }
