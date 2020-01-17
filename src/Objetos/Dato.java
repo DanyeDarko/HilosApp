@@ -9,74 +9,51 @@ public class Dato extends DatosAbstractClass // HERENCIA DE LA CLASE 'DatosAbstr
 implements MetodosConcurrentesInterfaz {  // IMPLEMENTACION DE LOS  METODOS ABSTRACTOS DE LA INTERFAZ  'MetodosConcurrentesInterfaz'
 
     //<editor-fold defaultstate="collapsed" desc="CONSTRUCTOR DE LA CLASE DATO">
-    public Dato() {
+    public Dato(int x) {
         this.numeroAleatorio = 0; // INICIALISA numeroAleatorio en 0 
-        this.arreglo = generarNumeros(); // INICIALISA EL ARREGLO DE NUMEROS CON LA GENERACION DE 100 NUMEROS ALEATORIOS DEL 1 AL 100   
+        this.x=x; //HASTA DONDE SE RECORRERA EL AREGLO O DE CUANTAS COLUMNAS ESTA ESPECIFICA CUANTOS NUMEROS SE GENERAN 
+        this.arreglo = generarNumeros(); // INICIALISA EL ARREGLO DE NUMEROS CON LA GENERACION DE 100 NUMEROS ALEATORIOS DEL 1 AL 100 
+                                         //EN LA FILA [0] DEL ARREGLO SE CREARAN ESTOS NUMEROS MIENTRAS EN LA FILA [1] SE RELLENARA DE CEROS
+                                        //YA QUE AQUI SE IMPRIMIRAN LAS DIFERENCIAS Y CAMBIOS DURANTE LAS OPERACIONES    
     }
     //</editor-fold>
     
     
     @Override
-    public int[] generarNumeros() {
+    public int[][] generarNumeros() {
         Random random = new Random();  //ESTANCIA DE UN OBJETO RANDOM PARA GENERAR NUMEROS ALEATORIOS
-        int[] numerosAux = new int[100]; // CREAMOS UN ARREGLO DE 100 POCICIONES PARA ALMACENAR LOS NUMEROS GENERADOS
-        for (int indice = 0; indice < 100; indice++) { // RECORRE EL ARREGLO Y LO LLENA DE NUMEROS ALEATORIOS DESDE LA POCICION 0 A LA 100                                              
-            //numerosAux[indice] = numeroAleatorio = random.nextInt(100) + 1; //POR CADA INDICE GENERADO DEL 1 AL 100 ,SE CREA UN NUMERO ALEATORIO ENTRE 1 Y 100
-            numerosAux[indice]=indice; // NUMEROS SERIADOS DEL 1 AL CIEN <---------- COMENTAR SI SE REQUIEREN 
-        }
+        int[][] numerosAux = new int[2][x]; // CREAMOS UN ARREGLO DE DOS DIMENSIONES CON X NUMERO DE COLUMNAS
+                                            // O POCICIONES PARA ALMACENAR LOS NUMEROS GENERADOS
+        for (int indice = 0; indice < x; indice++) { // RECORRE EL ARREGLO Y LO LLENA DE NUMEROS ALEATORIOS DESDE LA POCICION 0 A LA 'X'           0   1  2   3 ...                                
+            numerosAux[0][indice]=numeroAleatorio= random.nextInt(100)+1;// NUMEROS SERIADOS ALEATORIOS DEL 1 AL CIEN QUE SE INSERTARAN EN FILA 0 [54][2][12][32] 
+            numerosAux[1][indice]=0; // LA FILA 1 SE INICIALISARA EN CEROS PUESTO QUE AUN NO SE REALISAN CAMBIOS NI OPERACIONES           FILA  1 [0][0][0][0]  
+         }
       
         return numerosAux.clone(); // DEVUELVE UNA COPIA EXACTA DEL ARREGLO CON LOS NUMEROS ALEATORIOS
     }
 
-    public void decidirOperacion(int numeroHilo, int inicio, int fin) {
-            if (numeroHilo == 1) {
-                incremento(inicio, fin);
-            } else if (numeroHilo == 2) {
-                decremento(inicio, fin);
-            } else if (numeroHilo == 3) {
-                multiplica(inicio, fin);
-            } else if (numeroHilo==4) {
-                division(inicio, fin);
-            }           
+    public void decidirOperacion(int numeroHilo, int inicio, int fin) { //SEGUN EL NUMERO DE HILO ES COMO A EFECTUAR LA OPERACION 
+        int iteradorPociciones; 
+        for(iteradorPociciones=inicio;iteradorPociciones<fin;iteradorPociciones++)
+        switch(numeroHilo){
+              case 1:
+              getArreglo()[1][iteradorPociciones] = getArreglo()[0][iteradorPociciones]+10;
+              break;
+              case 2:
+              getArreglo()[1][iteradorPociciones] = getArreglo()[0][iteradorPociciones]+10;
+              break;
+              case 3:
+              getArreglo()[1][iteradorPociciones] = getArreglo()[0][iteradorPociciones]+10;
+              break;
+              case 4:
+              getArreglo()[1][iteradorPociciones] = getArreglo()[0][iteradorPociciones]+10;
+              break;
+          }      
     }
 
+   
     //<editor-fold defaultstate="collapsed" desc="METODOS OPERACIONALES PARA EL ARREGLO DE 100 POCICIONES">
-    @Override
-    public void incremento(int i, int f) { // METODO QUE INCREMENTA EL VALOR DE LOS ELEMENTOS DEL ARREGLO EN UN RANGO DE POCICIONES
-        for (int indice = i; indice < f; indice++) { // EL INDICE TIENE UN INICIO Y FIN BRINDADO POR EL USUARIO ,SE RECIBE EL PARAMETRO EN LA CREACION DEL HILO
-  
-            getArreglo()[indice] += 10; //OBTIENE EL ARREGLO Y EN LA POCICION DEL INDICE LO INCREMENTA MAS 10
-            System.out.println("\n++++ INCREMENTO 10  POCICION [ "+indice+" ] : "+getArreglo()[indice]+"--->>> VALOR ANTERIOR: "+(getArreglo()[indice]-10));      
-        }
-    }
-
-    @Override
-    public void decremento(int i, int f) { // METODO QUE DECREMENTA EL VALOR DE LOS ELEMENTOS DEL ARREGLO EN UN RANGO DE POCICIONES
-        for (int indice = i; indice < f; indice++) { // EL INDICE TIENE UN INICIO Y FIN BRINDADO POR EL USUARIO ,SE RECIBE EL PARAMETRO EN LA CREACION DEL HILO
-            System.out.println("\n---- DECREMENTANDO 10  POCICION [ "+indice+ "] : "+getArreglo()[indice]+"--->>> VALOR ANTERIOR: "+(getArreglo()[indice]+10)); 
-            getArreglo()[indice] -= 10; //OBTIENE EL ARREGLO Y EN LA POCICION DEL INDICE LO DECREMENTA MENOS 10
-        }
-    }
-
-    
-    @Override
-    public void multiplica(int i, int f) {  // METODO QUE MULTIPLICA EL VALOR DE LOS ELEMENTOS DEL ARREGLO EN UN RANGO DE POCICIONES
-        for (int indice = i; indice < f; indice++) { // EL INDICE TIENE UN INICIO Y FIN BRINDADO POR EL USUARIO ,SE RECIBE EL PARAMETRO EN LA CREACION DEL HILO
-            System.out.println("XXXXX MULTIPLICANDO POR 10  POCICION [ "+indice+ "] : "+getArreglo()[indice]+"--->>> VALOR ANTERIOR: "+(getArreglo()[indice]/10)); 
-            getArreglo()[indice] *= 10; //OBTIENE EL ARREGLO Y EN LA POCICION DEL INDICE LO MULTIPLICA POR 10
-        }
-    }
-
-    @Override
-    public void division(int i, int f) {  // METODO QUE DIVIDE EL VALOR DE LOS ELEMENTOS DEL ARREGLO EN UN RANGO DE POCICIONES
-        for (int indice = i; indice < f; indice++) { // EL INDICE TIENE UN INICIO Y FIN BRINDADO POR EL USUARIO ,SE RECIBE EL PARAMETRO EN LA CREACION DEL HILO 
-            getArreglo()[indice] /= 10; //OBTIENE EL ARREGLO Y EN LA POCICION DEL INDICE LO DIVIDE ENTRE 10
-             System.out.println("///// DIVIDIENDO  ENTRE 10  POCICION [ "+indice+ "] :"+getArreglo()[indice]+"--->>> VALOR ANTERIOR: "+(getArreglo()[indice]*10));
-        }
-    }
+   
     //</editor-fold>
-
-
-
     
 }
