@@ -1,4 +1,3 @@
-
 package Init;
 
 //<editor-fold defaultstate="collapsed" desc="LIBRERIAS Y DEPENDENCIAS IMPORTADAS">
@@ -9,35 +8,49 @@ import Hilos.*;
 public class AppHilo {
 
     public static void main(String[] args) {
+
+        //<editor-fold defaultstate="collapsed" desc="VARIABLES E INSTANCIAS DE OBJETOS PRINCIPALES">
+        Dato d = new Dato(100); // CREACION DE UN NUEVO OBJETO DE TIPO DATO(NUEVA ESTANCIA DE CLASE) PARA
+        // SINCRONISAR LA CLASE CON DOS HILOS
+
+        int iteradorArreglos; // VARIABLE UTIL PARA RECORRER EL ARREGLO Y EFECTUAR LLENADO Y DESPLIEGE DE HILOS
+        int inicio=0,fin=25;
     
-       Dato d = new Dato(); // CREACION DE UN NUEVO OBJETO DE TIPO DATO(NUEVA ESTANCIA DE CLASE) PARA SINCRONISAR LA CLASE CON DOS HILOS
-       // CREACION DE DOS ESTANCIAS DE LA CLASE 'HILORUNNABLE' QUE IMPLEMENTAN LA INTERFAZ RUNNABLE(HILOS/DEMONS)  
-       HiloRunnable hr=new HiloRunnable(d,1,0,25); // RECIBE 4 PARAMETROS Y ES INICIALISADA POR EL CONSTRUCTOR PRINCIPAL     
-       HiloRunnable hr2=new HiloRunnable(d,2,0,25);  // RECIBE SOLO 2 PARAMETROS Y ES INICIALISADA POR EL CONSTRUCTOR SECUNDARIO
-       
-       //CREACION DE DOS ESTANCIAS DE LA CLASE 'HILOTHREAD' QUE HEREDA LA CLASE THREAD PARA REALISAR TAREAS DE UN HILO
-       Thread hilo3 = new HiloThread(d,3,0,25); // NUEVO HILO CREADO CON POLIMORFISMO RECIBE 4 PARAMETROS INICIALISADO CON CONSTRUCTOR PRIMARIO
-       Thread hilo4= new HiloThread(d,4,0,25); // NUEVO HILO CREADO CON POLIMORFISMO RECIBE 2 PARAMETROS INICIALISADO CON CONSTRUCTOR SECUNDARIO
-       
-       // PARAMETROS {
-       // d : CLASE DATO MONITORA
-       // 1 : NUMERO DE HILO 
-       // 0 : POCICION INICIAL DE ARREGLO ,SI ES OMITIDO SE ASIGNA COMO LA POCICION 0                                  
-       // 25 : POCICION FINAL DE ARREGLO ,SI ES OMITIDO SE ASIGNA COMO LA POCICION FINAL 100
-       Thread hilo1= new Thread(hr); // ESTANCIA DE UN NUEVO HILO PARA DESPLEGAR UN SUBPROCESO 1            
-       Thread hilo2= new Thread(hr2); // ESTANCIA DE UN NUEVO HILO PARA DESPLEGAR EL SUBPROCESO 2
-       
-       System.out.println("ARREGLO ORIGINAL :");
-       for(int i=0;i<100;i++){
-        System.out.println("--->INDICE ["+i+"] :"+d.getArreglo()[i]);
-       }
-       
-       hilo2.start(); // DESPLIEGE DE PROCESO 2 (DECREMENTO)
-       hilo4.start(); // DESPLIEGE DE PROCESO 4  (DIVISION)
-       hilo1.start(); // DESPLIEGE DE PROCESO 1 (INCREMENTO)      
-       hilo3.start(); // DESPLIEGE DE PROCESO 3 (MULTIPLICACION) 
-       
-           
-                                                           
+        //</editor-fold>
+
+        System.out.println("*******ARREGLO ORIGINAL********");
+        d.imprimirArreglo(); // IMPRIMIMOS EL ARREGLO ORIGINAL 
+
+        //<editor-fold defaultstate="collapsed" desc="CREACION DE ARREGLO DE HILOS DE LA CLASE THREAD">
+        HiloThread arregloHiloThread[] = new HiloThread[4]; // CREAMOS UNA NUEVA ESTANCIA DE UNA AREGLO DE OBJETOS 
+        //DE TIPO HILOTHREAD  DE 4 POCICIONES ES DECIR 4 HILOS
+
+        for (iteradorArreglos = 0; iteradorArreglos < 4; iteradorArreglos++) { // PARTIMOS DE LLENAR CADA POCICION
+            //DEL ARREGLO CON UN HILO NUEVO 
+            arregloHiloThread[iteradorArreglos] = new HiloThread(d, (iteradorArreglos + 1),inicio,fin);
+            inicio+=25;
+            fin+=25;
+            /* CADA HILO RECIBE COMO PARAMETRO
+                                                                                             d : CLASE MONITORA DE TIPO DATO
+                                                                                             numhilo : IDENTIFICARA LA OPERACION AA REALIZAR POR CADA HILO 1 -SUMA 2-RESTA ...
+                                                                                             inicio:DESDE DONDE COMENSARA A EFECTUARSE LA OPERACION DEL HILO OMITIRLO LO IGUALA A CERO
+                                                                                             final: HASTA DONDE SE EFECTUA LA OPERACION SI SE OMITE ES IGUAL A 100 */
+            arregloHiloThread[iteradorArreglos].start(); // DESPLEGAMOS LOS HILOS 
+            
+            try {
+                arregloHiloThread[iteradorArreglos].join(); // QUEDA A LA ESPERA DE QUE TERMINE UN HILO PARA EJECUTARSE EL SIGUIENTE
+            } catch (Exception NullPointerException) { // SI ALGO SUCEDE CACHA LA EXEPCION 
+                System.out.println("ERROR AL ESPERAR LA EJECUCION DEL SIGUEINTE HILO");
+            }
+        }
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="PONER EN SECUENCIA LOS HILOS ">
+        for (iteradorArreglos = 0; iteradorArreglos < 2; iteradorArreglos++) {
+          
+        }
+        //</editor-fold>
+        
+        System.out.println("*******ARREGLO AFECTADO********");
+        d.imprimirArreglo(); // VISUALISAMOS COMO FUE AFECTADO EL ARREGLO DESPUES DE DESPLEGAR LOS HILOS Y UNIRLOS
     }
 }
