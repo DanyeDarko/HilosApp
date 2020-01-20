@@ -1,9 +1,11 @@
 package Hilos;
+//<editor-fold defaultstate="collapsed" desc="LIBRERIAS E IMPORTACIONES DE OBJETOS">
 import Objetos.Dato;
 import java.util.Random;
+//</editor-fold>
 
 public class HiloRunnable implements Runnable{
-
+    
     //<editor-fold defaultstate="collapsed" desc="VARIABLES GLOBALES">
     private Dato d;  //ESTANCIA DE CLASE DATO 
     private int num; // VARIABLE QUE GUARDA EL NUMERO DE HILO 
@@ -31,6 +33,5 @@ public class HiloRunnable implements Runnable{
     public void run() {        
      d.decidirOperacion(num, i, f);  // EVALUA EL NUMERO DE HILO PARA PODER REALISAR LA OPERACION CORRESPONDIENTE 
                                      // VER CLASE DATO PARA DETALLES DEL METODO DE DECICION DE OPERACION 
-    }
-    
+    }  
 }
